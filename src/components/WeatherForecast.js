@@ -36,6 +36,7 @@ function WeatherForecast() {
             <SearchCity
                 value={searchCity}
                 onChangeCity={handleInput}
+                onSubmitCity={GetWeatherForecast}
             />
 
 

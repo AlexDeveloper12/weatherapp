@@ -1,8 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
 
+const SearchBar = styled.form`
+    top:${({ showResult }) => (showResult ? '0%' : '30%')};
+    position: relative;
+    margin: 0 auto;
+    max-width: 500px;
+    transition: 0.8s 0.5s;
+`;
+
 const SearchInput = styled.input`
-width: 30%;
+width: 60%;
 border: none;
 font-family:Montserrat;
 background-color: #ffffff;
@@ -19,17 +27,19 @@ box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06
 }
 `;
 
-function SearchCity({ value, onChangeCity }) {
+function SearchCity({ value, onChangeCity, onSubmitCity }) {
 
     return (
         <div>
-            <SearchInput
-                placeholder="Search city..."
-                autoFocus={true}
-                value={value}
-                onChange={onChangeCity}
 
-            />
+            <SearchBar onSubmit={onSubmitCity}>
+                <SearchInput
+                    placeholder="Search city..."
+                    autoFocus={true}
+                    value={value}
+                    onChange={onChangeCity}
+                />
+            </SearchBar>
         </div>
     )
 }

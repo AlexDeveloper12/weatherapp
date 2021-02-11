@@ -8,7 +8,7 @@ import SearchCityError from './SearchCityError';
 import WeatherResult from './WeatherResult';
 
 
-require('dotenv').config({path: __dirname + '/../.env'});
+require('dotenv').config({ path: __dirname + '/../.env' });
 
 function WeatherForecast() {
 
@@ -31,10 +31,11 @@ function WeatherForecast() {
 
             })
             .then(([forecastData, weatherData]) => {
+                console.log(weatherData);
 
                 const weatherInfo = {
                     name: weatherData.name,
-                    temperature: weatherData.main.pressure,
+                    temperature: weatherData.main.temp,
                     humidity: weatherData.main.humidity,
                     weathertype: weatherData.weather[0].main,
                     forecast: forecastData.list

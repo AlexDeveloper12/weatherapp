@@ -1,6 +1,6 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSun, faBolt, faCloudRain, faSnowflake, faCloud } from '@fortawesome/free-solid-svg-icons';
+import { faSun, faBolt, faCloudRain, faSnowflake, faCloud, faChevronCircleUp } from '@fortawesome/free-solid-svg-icons';
 import ForecastTime from './ForecastTime';
 import Moment from 'moment';
 
@@ -11,13 +11,11 @@ function WeatherResult({ weatherInfo }) {
 
     const forecasts = weatherInfo.forecast.map((value, index) => {
 
-        console.log('forecasts')
-        console.log(value);
         return (
             <ForecastTime
                 temperature={value.main.temp}
                 id={value.id}
-                dateTime={Moment(value.dt_txt).format('DD/MM/YYYY HH')}
+                dateTime={Moment(value.dt_txt).format('DD/MM/YYYY HH:mm')}
                 icon={value.weather[0].icon}
             />
         )
@@ -47,19 +45,29 @@ function WeatherResult({ weatherInfo }) {
 
     }
 
+    const scrollToTop = () =>{
+        window.scrollTo({top:0,behavior:'smooth'})
+    }
+
     return (
         <div key={weatherInfo["id"]}>
 
             <div>
-                <span>City: {weatherInfo["name"]}</span><br />
+                <p>City: {weatherInfo["name"]}</p>
+                <p>Temperature: {weatherInfo["temperature"]}°C</p>
 
-                <span>Humidity: {weatherInfo["humidity"]}</span>
+                <p>Humidity: {weatherInfo["humidity"]}</p>
 
 
                 {weatherIcon}
             </div>
 
             {forecasts}
+
+            <div>
+                <FontAwesomeIcon icon={faChevronCircleUp} size={30} onClick={scrollToTop}/>
+
+            </div>
 
 
         </div>

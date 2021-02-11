@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 const SearchBar = styled.form`
     top:${({ showResult }) => (showResult ? '0%' : '30%')};
@@ -27,18 +29,23 @@ box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06
 }
 `;
 
+
 function SearchCity({ value, onChangeCity, onSubmitCity }) {
 
     return (
         <div>
 
             <SearchBar onSubmit={onSubmitCity}>
+  
                 <SearchInput
                     placeholder="Search city..."
                     autoFocus={true}
                     value={value}
                     onChange={onChangeCity}
                 />
+
+
+
             </SearchBar>
         </div>
     )

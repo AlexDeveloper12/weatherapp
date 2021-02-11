@@ -3,27 +3,46 @@ import axios from 'axios';
 import calls from '../calls';
 import Moment from 'moment';
 import SearchCity from './SearchCity';
+import swal from 'sweetalert';
+import SearchCityError from './SearchCityError';
+import WeatherResult from './ForecastResult';
 
 function WeatherForecast() {
 
     const [weather, setWeatherData] = useState([]);
     const [searchCity, setSearchCity] = useState('');
+    const [error, setError] = useState(false);
+    const [result, setResult] = useState(false);
+    const [forecastInfo, setForecastInfo] = useState('');
 
-    const GetWeatherForecast = () => {
-        axios.get(`https://api.openweathermap.org/data/2.5/forecast?q=Walsall&units=metric&appid=${calls.key}`)
-            .then(response => {
-                console.log(response.data);
-                setWeatherData(response.data.list);
+    const GetWeatherForecast = (event) => {
+        event.preventDefault();
+        console.log('Search city is greater than 0')
+        const myForecast = `https://api.openweathermap.org/data/2.5/forecast?q=${searchCity}&units=metric&appid=${calls.key}`;
+        const myWeather = `https://api.openweathermap.org/data/2.5/weather?q=${searchCity}&units=metric&appid=${calls.key}`;
+
+        Promise.all([fetch(myForecast), fetch(myWeather)])
+            .then(([forecast, weather]) => {
+                return Promise.all([forecast.json(), weather.json()])
 
             })
-            .catch(error => {
-                console.log('Error getting weather: ' + error);
+            .then(([forecastData, weatherData]) => {
+
+                const weatherInfo = {
+                    name: weatherData.name,
+                    temperature: weatherData.main.pressure,
+                    humidity: weatherData.main.humidity,
+                    weathertype: weatherData.weather[0].main,
+                    forecast:forecastData.list
+                };
+
+                setForecastInfo(forecastData);
+                setWeatherData(weatherInfo);
+
+                setError(false);
+                setResult(true);
             })
     }
-
-    useEffect(() => {
-        GetWeatherForecast();
-    }, []);
 
     const handleInput = (event) => {
         console.log(event.target.value);
@@ -33,23 +52,19 @@ function WeatherForecast() {
     return (
         <div>
 
+            <h2 style={{ color: 'white', fontFamily: 'Montserrat', textAlign: 'center' }}>My Weather App</h2>
+
             <SearchCity
                 value={searchCity}
                 onChangeCity={handleInput}
                 onSubmitCity={GetWeatherForecast}
             />
 
+            {error && <SearchCityError />}
 
-            {
-                weather.map((value, index) => {
-                    return (
-                        <div style={{ display: 'inline-block' }} key={value.dt}>
-                            {Moment(value.dt[0]).format('HH:mm:ss')}
-                            <span>{value.temp}</span>
-                        </div>
-                    )
-                })
-            }
+            {result && <WeatherResult weatherInfo={weather} />}
+
+
 
 
 

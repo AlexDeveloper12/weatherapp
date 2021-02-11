@@ -5,6 +5,7 @@ const WeatherIcon = styled.img`
     display:block;
     height:50px;
     width:50px;
+    margin:0 auto;
 `
 
 const ForecastTime = ({ id, temperature, dateTime, hour, icon }) => {
@@ -12,9 +13,10 @@ const ForecastTime = ({ id, temperature, dateTime, hour, icon }) => {
     console.log(iconUrl)
 
     return (
-        <div key={id} style={{pading:10,opacity:0.5,borderRadius:5,margin:10,display:'inline',width:'14%'}}>
-            <span>{dateTime}</span>
+        <div key={id} style={{ padding: 10, borderRadius: 5, margin: 10, display: 'inline-block', width: '14%',overflow:'hidden' }}>
+            {/* <span>{dateTime}</span> */}
             <span>{temperature}</span>
+            <WeatherIcon src={iconUrl} />
         </div>
 
     )

@@ -10,14 +10,15 @@ function WeatherResult({ weatherInfo }) {
     console.log(weatherInfo.forecast);
 
     const forecasts = weatherInfo.forecast.map((value, index) => {
-    
+
         console.log('forecasts')
         console.log(value);
         return (
             <ForecastTime
                 temperature={value.main.temp}
                 id={value.id}
-                dateTime={Moment(value.dt_txt).format('DD/MM/YYYY HH:mm')}
+                dateTime={Moment(value.dt_txt).format('DD/MM/YYYY HH')}
+                icon={value.weather[0].icon}
             />
         )
     })
@@ -49,12 +50,14 @@ function WeatherResult({ weatherInfo }) {
     return (
         <div key={weatherInfo["id"]}>
 
-            <span>City: {weatherInfo["name"]}</span><br />
-            <span>Temperature: {weatherInfo["temperature"]}</span><br />
+            <div>
+                <span>City: {weatherInfo["name"]}</span><br />
 
-            <span>Humidity: {weatherInfo["humidity"]}</span>
+                <span>Humidity: {weatherInfo["humidity"]}</span>
 
-            {weatherIcon}
+
+                {weatherIcon}
+            </div>
 
             {forecasts}
 

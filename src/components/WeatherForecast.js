@@ -5,7 +5,10 @@ import Moment from 'moment';
 import SearchCity from './SearchCity';
 import swal from 'sweetalert';
 import SearchCityError from './SearchCityError';
-import WeatherResult from './ForecastResult';
+import WeatherResult from './WeatherResult';
+
+
+require('dotenv').config({path: __dirname + '/../.env'});
 
 function WeatherForecast() {
 
@@ -18,8 +21,9 @@ function WeatherForecast() {
     const GetWeatherForecast = (event) => {
         event.preventDefault();
         console.log('Search city is greater than 0')
-        const myForecast = `https://api.openweathermap.org/data/2.5/forecast?q=${searchCity}&units=metric&appid=${calls.key}`;
-        const myWeather = `https://api.openweathermap.org/data/2.5/weather?q=${searchCity}&units=metric&appid=${calls.key}`;
+        const apiKey = process.env.REACT_APP_WEATHER_API_KEY;
+        const myForecast = `https://api.openweathermap.org/data/2.5/forecast?q=${searchCity}&units=metric&appid=${apiKey}`;
+        const myWeather = `https://api.openweathermap.org/data/2.5/weather?q=${searchCity}&units=metric&appid=${apiKey}`;
 
         Promise.all([fetch(myForecast), fetch(myWeather)])
             .then(([forecast, weather]) => {
@@ -33,7 +37,7 @@ function WeatherForecast() {
                     temperature: weatherData.main.pressure,
                     humidity: weatherData.main.humidity,
                     weathertype: weatherData.weather[0].main,
-                    forecast:forecastData.list
+                    forecast: forecastData.list
                 };
 
                 setForecastInfo(forecastData);

@@ -6,4 +6,4 @@ The purpose of the application is to be able search for the current weather in a
 
 
 
-![Weather Application in action.](2021-02-18 15.11.14.gif)
+![Weather Application in action.](weather.gif)
